@@ -20,6 +20,11 @@ public class TheShapeIsRight extends Application
     private static TheShapeIsRight instance;
     private Stage stage;
 
+    /**
+     * Starts the application, displaying the configuration window
+     * @param primaryStage The primary stage on which to display content
+     * @throws IOException Thrown if the config fxml cannot be loaded
+     */
     @Override
     public void start(Stage primaryStage) throws IOException {
         instance = this;
@@ -31,19 +36,24 @@ public class TheShapeIsRight extends Application
 
         ConfigController configController = loader.getController();
 
+        primaryStage.setScene(new Scene(configRoot));
+
         configController.init(configRoot);
 
-        primaryStage.setScene(new Scene(configRoot));
         primaryStage.setResizable(false);
-        primaryStage.show();
         primaryStage.setWidth(600);
         primaryStage.setHeight(400);
+        primaryStage.show();
     }
 
     public static TheShapeIsRight getInstance() {
         return instance;
     }
 
+    /**
+     * Switches to the game window
+     * @param gameProperties The properties (configuration) specified by the user in the configuration window
+     */
     public void startGame(GameProperties gameProperties) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("forms/game.fxml"));
         try {

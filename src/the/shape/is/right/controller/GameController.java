@@ -20,11 +20,18 @@ public class GameController {
     private GameProperties gameProperties;
     private Random random = new Random();
 
+    /**
+     * Initialize the game window with the specified Parent and game properties
+     * @param root the Parent our components are in
+     * @param gameProperties The properties selected by the user
+     */
     public void init(Parent root, GameProperties gameProperties) {
         this.gameProperties = gameProperties;
 
+        //animate the window into frame from the left
         Timeline tl = new Timeline();
-        tl.getKeyFrames().add(new KeyFrame(new Duration(0), new KeyValue(root.translateXProperty(), -root.getLayoutBounds().getWidth())));
+        tl.getKeyFrames().add(new KeyFrame(new Duration(0), new KeyValue(root.translateXProperty(),
+                -root.getLayoutBounds().getWidth())));
         tl.getKeyFrames().add(new KeyFrame(new Duration(500), new KeyValue(root.translateXProperty(), 0)));
         tl.playFromStart();
         root.translateXProperty().set(-root.getLayoutBounds().getWidth());
@@ -34,6 +41,10 @@ public class GameController {
         showRandomShapes();
     }
 
+    /**
+     * Shows a random selection of N shapes given the user's allowed shapes and colors.
+     * N is the configured number of shapes.
+     */
     private void showRandomShapes() {
         for (int i = 0; i < gameProperties.numShapes; i++) {
             int shapeRand = random.nextInt(gameProperties.shapes.size()) + 1;
