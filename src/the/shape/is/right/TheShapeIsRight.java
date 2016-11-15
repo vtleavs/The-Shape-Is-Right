@@ -1,69 +1,63 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package the.shape.is.right;
 
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import the.shape.is.right.controller.ConfigController;
+import the.shape.is.right.controller.GameController;
+
+import java.io.IOException;
 
 /**
  *
- * @author Ben
+ * @author Ben, Brian
  */
 public class TheShapeIsRight extends Application 
 {
+
+    private static TheShapeIsRight instance;
+    private Stage stage;
+
     @Override
-    public void start(Stage primaryStage) 
-    {
-        Button toGameButton = new Button("Go To Game Pane");
-        Button toResultsButton = new Button("Go To Results Pane");
-        
-        VBox optionsPane = new VBox();
-        VBox gamePane = new VBox();
-        VBox resultsPane = new VBox();
-        
-        Scene scene = new Scene(optionsPane, 600, 600);
-        
-        // Add nodes to optionsPane
-        optionsPane.getChildren().add(new Label("This is the Options Pane"));
-        optionsPane.getChildren().add(toGameButton);
-        
-        // Add nodes to gamePane
-        gamePane.getChildren().add(new Label("This is the Game Pane"));
-        gamePane.getChildren().add(toResultsButton);
-        
-        // Add nodes to resultsPane
-        resultsPane.getChildren().add(new Label("This is the Results Pane"));
-        
-        primaryStage.setTitle("Hello World!");
-        primaryStage.setScene(scene);
+    public void start(Stage primaryStage) throws IOException {
+        instance = this;
+
+        stage = primaryStage;
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("forms/config.fxml"));
+        Parent configRoot = loader.load();
+
+        ConfigController configController = loader.getController();
+
+        configController.init(configRoot);
+
+        primaryStage.setScene(new Scene(configRoot));
+        primaryStage.setResizable(false);
         primaryStage.show();
-        
-        
-        toGameButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) 
-            {
-                scene.setRoot(gamePane);
-            }
-        });
-        
-        toResultsButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) 
-            {
-                scene.setRoot(resultsPane);
-            }
-        });
+        primaryStage.setWidth(600);
+        primaryStage.setHeight(400);
+    }
+
+    public static TheShapeIsRight getInstance() {
+        return instance;
+    }
+
+    public void startGame(GameProperties gameProperties) {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("forms/game.fxml"));
+        try {
+            Parent gameRoot = loader.load();
+            GameController gameController = loader.getController();
+
+            stage.setScene(new Scene(gameRoot));
+            stage.setWidth(600);
+            stage.setHeight(400);
+
+            gameController.init(gameRoot, gameProperties);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
