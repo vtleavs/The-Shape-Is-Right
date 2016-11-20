@@ -53,11 +53,9 @@ public class ConfigController {
         }
 
         colorListView.setItems(colorLs);
-        colorListView.refresh();
         colorListView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
         shapeListView.setItems(shapeLs);
-        shapeListView.refresh();
         shapeListView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
     }
 

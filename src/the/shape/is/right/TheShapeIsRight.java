@@ -38,11 +38,15 @@ public class TheShapeIsRight extends Application
 
         primaryStage.setScene(new Scene(configRoot));
 
+        
+        
         configController.init(configRoot);
 
-        primaryStage.setResizable(false);
-        primaryStage.setWidth(600);
-        primaryStage.setHeight(400);
+        primaryStage.setMinWidth(1600);
+        primaryStage.setMinHeight(900);
+        primaryStage.setResizable(true);
+        primaryStage.setWidth(800);
+        primaryStage.setHeight(800);
         primaryStage.show();
     }
 
@@ -60,9 +64,12 @@ public class TheShapeIsRight extends Application
             Parent gameRoot = loader.load();
             GameController gameController = loader.getController();
 
-            stage.setScene(new Scene(gameRoot));
-            stage.setWidth(600);
-            stage.setHeight(400);
+            Scene scene = new Scene(gameRoot);
+            scene.getStylesheets().add( getClass().getResource("styles.css").toExternalForm() );
+            
+            stage.setScene(scene);
+            stage.setWidth(800);
+            stage.setHeight(800);
 
             gameController.init(gameRoot, gameProperties);
         } catch (IOException e) {
