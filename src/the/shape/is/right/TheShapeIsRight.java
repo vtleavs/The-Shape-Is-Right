@@ -11,17 +11,27 @@ import the.shape.is.right.controller.GameController;
 import java.io.IOException;
 
 /**
- *
  * @author Ben, Brian
  */
-public class TheShapeIsRight extends Application 
-{
+public class TheShapeIsRight extends Application {
 
     private static TheShapeIsRight instance;
     private Stage stage;
 
+    public static TheShapeIsRight getInstance() {
+        return instance;
+    }
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) {
+        launch(args);
+    }
+
     /**
      * Starts the application, displaying the configuration window
+     *
      * @param primaryStage The primary stage on which to display content
      * @throws IOException Thrown if the config fxml cannot be loaded
      */
@@ -38,24 +48,17 @@ public class TheShapeIsRight extends Application
 
         primaryStage.setScene(new Scene(configRoot));
 
-        
-        
         configController.init(configRoot);
 
-        primaryStage.setMinWidth(1600);
-        primaryStage.setMinHeight(900);
-        primaryStage.setResizable(true);
-        primaryStage.setWidth(800);
-        primaryStage.setHeight(800);
+        stage.setMinWidth(1600);
+        stage.setMinHeight(900);
+        stage.setResizable(true);
         primaryStage.show();
-    }
-
-    public static TheShapeIsRight getInstance() {
-        return instance;
     }
 
     /**
      * Switches to the game window
+     *
      * @param gameProperties The properties (configuration) specified by the user in the configuration window
      */
     public void startGame(GameProperties gameProperties) {
@@ -64,25 +67,19 @@ public class TheShapeIsRight extends Application
             Parent gameRoot = loader.load();
             GameController gameController = loader.getController();
 
+            gameRoot.setVisible(false);
+
             Scene scene = new Scene(gameRoot);
-            scene.getStylesheets().add( getClass().getResource("styles.css").toExternalForm() );
-            
+
+            scene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
+
             stage.setScene(scene);
-            stage.setWidth(800);
-            stage.setHeight(800);
+//            stage.setWidth(1600);
+//            stage.setHeight(900);
 
             gameController.init(gameRoot, gameProperties);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) 
-    {
-        launch(args);
-    }
-    
 }
